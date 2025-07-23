@@ -6,21 +6,19 @@ function Counter() {
     let [count, setCount] = useState(0)
 
     function handleIncrement(){
-        console.log(count)
-        setCount(count++)
-        // if(count <=4){
-        //     setCount(count++)
-        // }
-        // else{
-        //     alert(`Number can not be greater than 20`)
-        // }
+        if(count <4){
+            setCount(prev => prev + 1)	
+        }
+        else{
+            alert(`Number can not be greater than 20`)
+        }
         
     }
     function handleDecrement(){
         console.log(count)
 
-        if (count>=0){
-            setCount(count--)
+        if (count>0){
+            setCount(prev => prev -1)
         }
         else{
             alert(`Number can not be less than 0`)
