@@ -39,5 +39,6 @@ const data = useLoaderData()
 
 export const apiloaderinfo = async()=>{
     const respone = await fetch("https://api.github.com/users/wasim-momin")
+    if(!respone.ok) throw new Response("Failed to fetch", {status: respone.status})
     return respone.json()
 }
