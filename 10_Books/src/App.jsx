@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BookForm, BookList } from "./componets";
 import { BookContextProvider } from "./context/BookContext";
 
@@ -10,14 +10,27 @@ function App() {
       id: Date.now(),
       title,
       name,
-      coverImage
+      coverImage,
     };
     setBookList((prev) => [...prev, newBook]);
   };
 
   const deleteBook = (id) => {
-    setBookList((prevBookList)=>(prevBookList.filter((prevBook)=>(prevBook.id !== id))))
+    setBookList((prevBookList) =>
+      prevBookList.filter((prevBook) => prevBook.id !== id)
+    );
   };
+
+  useEffect(()=>{
+    const bookList = JSON.parse(localStorage.getItem("bookList"))
+    if(bookList && bookList.length>0){
+      setBookList(bookList)
+    }
+  },[])
+
+  useEffect(()=>{
+    localStorage.setItem("bookList", JSON.stringify(bookList))
+  },[bookList])
 
   return (
     <BookContextProvider value={{ bookList, addBook, deleteBook }}>
