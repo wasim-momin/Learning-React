@@ -23,9 +23,16 @@ export const todoSlide = createSlice({
     deleteTodo: (state, action) => {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
+    updateTodo: (state, action) => {
+      state.todos = state.todos.map((prevTodo) =>
+        prevTodo.id === action.payload.id
+          ? { ...prevTodo, text: action.payload.text }
+          : prevTodo
+      );
+    },
   },
 });
 
-export const {addTodo, deleteTodo} = todoSlide.actions
+export const { addTodo, deleteTodo, updateTodo } = todoSlide.actions;
 
-export default todoSlide.reducer
+export default todoSlide.reducer;
