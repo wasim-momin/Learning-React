@@ -1,28 +1,39 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteTodo, updateTodo } from "../features/todo/todoSlice";
+import {
+  deleteTodo,
+  updateTodo,
+  completeTodo,
+} from "../features/todo/todoSlice";
 import { useState } from "react";
 
 function Todoslist() {
-
   const [editNote, setEditNote] = useState(false);
 
   const todoList = useSelector((state) => state.todos);
 
   const dispatch = useDispatch();
 
-  const handleDelete = (id) => {
-    const a = dispatch(deleteTodo(id));
-    console.log("dele", a);
-  };
+  
 
   const handleUpdate = (id, text) => {
     if (editNote) {
       dispatch(updateTodo({ id, text }));
-      setEditNote(false)
+      setEditNote(false);
     } else {
       setEditNote(true);
     }
   };
+
+const handleDelete = (id) => {
+    const a = dispatch(deleteTodo(id)); // id jo hum ne pas kiye wo direct hai (action.payload) reducer refer a
+  };
+
+  const handleComplete = (id) => {
+    const a = dispatch(completeTodo({id})); // id jo hum ne pas kiye wo {} bases to (action.payload.id) reducer refer b
+  };
+
+
+console.log('data list', todoList);
 
   return (
     <>
@@ -31,12 +42,19 @@ function Todoslist() {
         {todoList.map((todo) => (
           <li className="mt-4 bg-zinc-800 px-4 py-2 rounded" key={todo.id}>
             <div className="flex justify-between items-center">
-              <div className="mr-3" style={{flex:1}}>
+              <input
+                type="checkbox"
+                className="cursor-pointer"
+                id={todo.id}
+                checked={todo.completed}
+                onChange={handleComplete.bind(null, todo.id)}
+              />
+              <div className="ml-1 mr-3" style={{ flex: 1 }}>
                 <input
                   type="text"
                   className={`${
                     editNote ? "bg-white text-black" : "bg-transparent"
-                  } px-2 w-full rounded-lg ${
+                  } px-2 w-full rounded-sm ${
                     todo.completed ? "line-through" : ""
                   }`}
                   id={todo.id}
@@ -44,13 +62,16 @@ function Todoslist() {
                   readOnly={!editNote}
                   disabled={!editNote}
                   value={todo.text}
-                  onChange={(e)=>(dispatch(updateTodo({id: todo.id, text:e.target.value})))}
+                  onChange={(e) =>
+                    dispatch(updateTodo({ id: todo.id, text: e.target.value }))
+                  }
                 />
               </div>
               <div className="flex gap-1.5">
                 <button
                   onClick={handleUpdate.bind(null, todo.id, todo.text)}
-                  className="text-white bg-black border-0 py-1 px-4 focus:outline-none hover:bg-black rounded text-md"
+                  className="text-white bg-black border-0 py-1 px-4 focus:outline-none hover:bg-black rounded text-md disabled:opacity-50"
+                  disabled={todo.completed}
                 >
                   {editNote ? "📁" : "✏️"}
                 </button>

@@ -9,8 +9,6 @@ function AddTodo() {
   const addTodoHandler = (e) => {
     e.preventDefault();
     const a = dispatch(addTodo(input));
-    console.log('data', a);
-    
     setInput("");
   };
 

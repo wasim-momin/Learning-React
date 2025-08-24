@@ -5,6 +5,7 @@ const initialState = {
     {
       id: 1,
       text: "Hello world wwww",
+      completed: false,
     },
   ],
 };
@@ -21,7 +22,7 @@ export const todoSlide = createSlice({
       state.todos.push(todo);
     },
     deleteTodo: (state, action) => {
-      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload); // a 
     },
     updateTodo: (state, action) => {
       state.todos = state.todos.map((prevTodo) =>
@@ -30,9 +31,17 @@ export const todoSlide = createSlice({
           : prevTodo
       );
     },
+    completeTodo: (state, action) => {
+      state.todos = state.todos.map((prevTodo) =>
+        prevTodo.id === action.payload.id // b
+          ? { ...prevTodo, completed: !prevTodo.completed }
+          : prevTodo
+      );
+    },
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo } = todoSlide.actions;
+export const { addTodo, deleteTodo, updateTodo, completeTodo } =
+  todoSlide.actions;
 
 export default todoSlide.reducer;
