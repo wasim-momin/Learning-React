@@ -1,7 +1,7 @@
-import conf from "../conf/conf.js";
+import conf from "../conf/conf";
 import { Client, Account, ID } from "appwrite";
 
-export class AuthServices {
+export class Auth {
   client = new Client();
   account;
 
@@ -10,53 +10,53 @@ export class AuthServices {
     this.account = new Account(this.client);
   }
 
-  async createAccount({ name, email, password }) {
+  async signup({ email, password, name }) {
     try {
       const userAccount = await this.account.create(
         ID.unique(),
-        name,
         email,
-        password
+        password,
+        name
       );
       if (userAccount) {
         // call another method
-        return this.login(email, password)
+        alert(`${name} congrats Account is created`);
+        return this.authLogin(email, password);
       } else {
-        return userAccount;
+        return null;
       }
     } catch (error) {
       throw error;
     }
   }
 
-  async login ({email, password}){
-    try{
-        return await this.account.createEmailPasswordSession(email, password)
-    }catch(error){
-        throw error
+  async signin({ email, password }) {
+    try {
+      return await this.account.createEmailPasswordSession(email, password);
+    } catch (error) {
+      console.log("login error", error.message);
+      throw error;
     }
   }
 
-  async getCurrentUser (){
-    try{
-        return await this.account.get()
-    }catch(error){
-        console.log("App write :: getCurrentUser :: error", error)
+  async getCurrentUser() {
+    try {
+      return await this.account.get();
+    } catch (error) {
+      console.log("current user", error.message);
     }
-    return null
+    return null;
   }
 
-  async logOut (){
-    try{
-        await this.account.deleteSessions()
-    } catch(error){
-        console.log("App write :: getCurrentUser :: error", error)
+  async logout() {
+    try {
+      await this.account.deleteSessions();
+    } catch (error) {
+      console.log("logout error", error.message);
     }
   }
-
-
 }
 
-const authServices = new AuthServices();
+const auth = new Auth();
 
-export default authServices;
+export default auth;
