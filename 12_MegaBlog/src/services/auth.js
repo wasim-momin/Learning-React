@@ -18,10 +18,11 @@ export class Auth {
         password,
         name
       );
-      if (userAccount) {
+      const currentUser = await this.getCurrentUser()
+      if (!currentUser) {
         // call another method
         alert(`${name} congrats Account is created`);
-        return this.authLogin(email, password);
+        return this.signin(email, password);
       } else {
         return null;
       }

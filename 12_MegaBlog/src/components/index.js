@@ -7,6 +7,7 @@ import Signup from "./Signup"
 import Header from './Header'
 import Footer from './Footer'
 import PostCard from './PostCard'
+import LogoutButton from "./logoutButton"
 
 export{
     CreatePost,
@@ -17,5 +18,6 @@ export{
     Signup,
     Header,
     Footer,
-    PostCard
+    PostCard,
+    LogoutButton
 }

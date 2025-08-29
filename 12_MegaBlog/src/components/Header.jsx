@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {Button} from "../components/common";
+import LogoutButton from "./logoutButton";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ export default function Header() {
     {
       name: "Posts",
       url: "/posts",
-      active: !authStatus,
+      active: true,
     },
     {
       name: "Create",
@@ -54,6 +56,13 @@ export default function Header() {
               null
             )
           )}
+          {
+            authStatus && <li>
+               <LogoutButton />
+            </li>
+          }
+               {/* <LogoutButton /> */}
+
         </ul>
       </div>
     </header>

@@ -1,7 +1,20 @@
 // pages/PostDetails.jsx
 import { Pencil, Trash2 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function PostDetails() {
+  const authStatus = useSelector((state) => state.auth.status);
+  const currentUser = useSelector((state)=> state.auth.userData)
+
+  const ISODate = currentUser?.$createdAt
+  const dateObj = new Date(ISODate)
+  const dateOptions = {
+    day:"2-digit",
+    month: "short",
+    year:"numeric"
+  }
+  const createDate = dateObj.toLocaleDateString("en-GB", dateOptions)
+
   const post = {
     id: 1,
     title: "How to Learn React in 2025",
@@ -27,20 +40,21 @@ export default function PostDetails() {
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
             <h1 className="text-3xl font-bold text-gray-800">{post.title}</h1>
-
+            {authStatus && (
+              <div className="flex gap-3">
+                <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition">
+                  <Pencil className="w-5 h-5 text-blue-600" />
+                </button>
+                <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition">
+                  <Trash2 className="w-5 h-5 text-red-600" />
+                </button>
+              </div>
+            )}
             {/* Action Buttons */}
-            <div className="flex gap-3">
-              <button className="p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition">
-                <Pencil className="w-5 h-5 text-blue-600" />
-              </button>
-              <button className="p-2 rounded-full bg-red-100 hover:bg-red-200 transition">
-                <Trash2 className="w-5 h-5 text-red-600" />
-              </button>
-            </div>
           </div>
 
           <p className="text-gray-500 text-sm mb-2">
-            ✍️ {post.author} • {post.date}
+            ✍️ {currentUser?.name} • {createDate}
           </p>
 
           <p className="text-gray-700 leading-relaxed">{post.content}</p>
