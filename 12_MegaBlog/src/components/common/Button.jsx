@@ -5,16 +5,18 @@ export default function Button({
   type = "button",
   bgColor = "bg-blue-600",
   textColor = "text-white",
+  hoverBtn = "hover:bg-blue-700",
   className = "",
   ...props
 }) {
   return (
-    <Button
+    <button
       type={type}
-      className={`${className} ${bgColor} ${textColor}`}
+      // className={`${className} `}
+      className={`cursor-pointer w-full py-2 ${bgColor} ${textColor} ${hoverBtn} rounded-lg font-medium  transition`}
       {...props}
     >
       {children}
-    </Button>
+    </button>
   );
 }
