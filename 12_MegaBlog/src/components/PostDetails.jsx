@@ -1,30 +1,25 @@
 // pages/PostDetails.jsx
 import { Pencil, Trash2 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { posts } from "../dummyContent/posts";
 
 export default function PostDetails() {
   const authStatus = useSelector((state) => state.auth.status);
-  const currentUser = useSelector((state)=> state.auth.userData)
+  const currentUser = useSelector((state) => state.auth.userData);
 
-  const ISODate = currentUser?.$createdAt
-  const dateObj = new Date(ISODate)
+  const ISODate = currentUser?.$createdAt;
+  const dateObj = new Date(ISODate);
   const dateOptions = {
-    day:"2-digit",
+    day: "2-digit",
     month: "short",
-    year:"numeric"
-  }
-  const createDate = dateObj.toLocaleDateString("en-GB", dateOptions)
-
-  const post = {
-    id: 1,
-    title: "How to Learn React in 2025",
-    content: `React Fiber, concurrent rendering aur server components ke saath 
-              kaafi evolve ho chuka hai. Agar aapko React master karna hai toh 
-              pehle basics samajhna zaroori hai, phir hooks, aur phir advance features.`,
-    author: "Wasim",
-    date: "28 Aug, 2025",
-    image: "https://picsum.photos/800/400?random=10",
+    year: "numeric",
   };
+  const createDate = dateObj.toLocaleDateString("en-GB", dateOptions) || "";
+  const { id } = useParams();
+  const post = posts.find((post) => post.id === parseInt(id));
+
+if (!post) return <p>Post not found</p>;
 
   return (
     <div className="container mx-auto px-4 py-8 text-white">
@@ -54,7 +49,7 @@ export default function PostDetails() {
           </div>
 
           <p className="text-gray-500 text-sm mb-2">
-            ✍️ {currentUser?.name} • {createDate}
+            ✍️ {currentUser?.name} • {createDate ? createDate : ""}
           </p>
 
           <p className="text-gray-700 leading-relaxed">{post.content}</p>

@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function PostCard({ post }) {
+
+  const navigate = useNavigate()
+
   return (
-    <Link
-      to={`/posts/${post.id}`}
-      className="block bg-white rounded-xl shadow-md hover:shadow-xl transition p-4"
+    <div
+      onClick={()=>navigate(`/posts/${post.id}`)}
+      className="cursor-pointer block bg-white rounded-xl shadow-md hover:shadow-xl transition p-4"
     >
       <img
         src={post.image}
@@ -18,6 +21,6 @@ export default function PostCard({ post }) {
         ✍️ {post.author} • {post.date}
       </p>
       <p className="text-gray-600 text-sm line-clamp-2">{post.content}</p>
-    </Link>
+    </div>
   );
 }
