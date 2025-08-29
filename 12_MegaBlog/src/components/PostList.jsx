@@ -1,4 +1,4 @@
-import {PostCard} from "../components/index"
+import {PostCard} from "./index"
 
 export default function PostList() {
   const posts = [

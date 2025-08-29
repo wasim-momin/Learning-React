@@ -11,7 +11,7 @@ import {
   PostDetails,
   PostList,
   Signup,
-} from "./pages/index.js";
+} from "./components/";
 
 const router = createBrowserRouter([
   {
