@@ -1,16 +1,17 @@
-import { Trash2 } from "lucide-react";
-import { Input, Select } from "./common";
+import { Input, Select, UploadImageFile } from "./common";
 import { useForm } from "react-hook-form";
 import { useCallback, useEffect } from "react";
 import RTEditor from "./RTEditor";
 
 export default function CreatePost({ post }) {
+
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
       defaultValues: {
         title: post?.title || "",
         slug: post?.slug || "",
         content: post?.content || "",
+        image: post?.image || "",
         status: post?.status || "active",
       },
     });
@@ -37,6 +38,7 @@ export default function CreatePost({ post }) {
       subscription.unsubscribe();
     };
   }, [watch, slugTransform, setValue]);
+
 
   return (
     <div className=" bg-[#172842] py-10 px-4 rounded-2xl">
@@ -94,38 +96,23 @@ export default function CreatePost({ post }) {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Feature Image
               </label>
-              <div className="flex flex-col items-center gap-2">
-                <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-                  <p className="text-gray-500 text-sm">
-                    Click to upload or drag & drop
-                  </p>
-                  <Input
-                    type="file"
-                    className="hidden"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
-                  />
-                </label>
+              {/* case 1 controller */}
+              {/* <UploadImageFile 
+              name="featuredImage"
+              control={control}/> */}
 
-                {post && (
-                  <div className="relative w-full mt-2">
-                    <img
-                      alt="Preview"
-                      className="w-full h-48 object-cover rounded-lg border"
-                    />
-                  </div>
-                )}
-
+              <UploadImageFile
+                register={register}
+                defaultImage={post?.image}
+              />
+              {post && (
                 <div className="relative w-full mt-2">
                   <img
                     alt="Preview"
                     className="w-full h-48 object-cover rounded-lg border"
                   />
-                  <button className="absolute -top-2 -right-2 p-2 rounded-full bg-red-100 hover:bg-red-200 transition">
-                    <Trash2 className="w-5 h-5 text-red-600" />
-                  </button>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Status */}
