@@ -22,7 +22,7 @@ export default function Header() {
     {
       name: "Create",
       url: "/create",
-      active: authStatus,
+      active: true,
     },
     {
       name: "Login",

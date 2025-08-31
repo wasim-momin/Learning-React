@@ -8,6 +8,7 @@ import Header from './Header'
 import Footer from './Footer'
 import PostCard from './PostCard'
 import LogoutButton from "./logoutButton"
+import RTEditor from "./RTEditor"
 
 export{
     CreatePost,
@@ -19,5 +20,6 @@ export{
     Header,
     Footer,
     PostCard,
-    LogoutButton
+    LogoutButton,
+    RTEditor
 }
