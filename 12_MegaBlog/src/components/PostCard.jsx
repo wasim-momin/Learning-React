@@ -19,9 +19,6 @@ export default function PostCard({ $id, title, featuredImage, content, $createdA
       <h2 className="text-lg font-semibold text-gray-800 mb-1">
         {title}
       </h2>
-      <p className="text-gray-500 text-sm mb-2">
-        ✍️ {author} • {$createdAt}
-      </p>
       <p className="text-gray-600 text-sm line-clamp-2">{content}</p>
     </div>
   );
