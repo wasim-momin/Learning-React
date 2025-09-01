@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import fileService from "../services/file"
 
-export default function PostCard({ $id, title, featuredImage, content, $createdAt, author }) {
+export default function PostCard({ $id, title, featuredImage, content }) {
 
   const navigate = useNavigate()
   const imgPreview = fileService.previewFile(featuredImage)

@@ -76,7 +76,7 @@ export default function CreatePost({ post }) {
           userId: userData.$id,
         });
         if (dbCreatePost) {
-          navigate(`/post/${dbCreatePost.$id}`);
+          navigate(`/posts/${dbCreatePost.$id}`);
         }
       }
     }
