@@ -1,9 +1,18 @@
 import { Input, Select, UploadImageFile } from "./common";
 import { useForm } from "react-hook-form";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RTEditor from "./RTEditor";
+import { useNavigate } from "react-router-dom";
+import fileService from "../services/file";
+import postService from "../services/post";
+import { useSelector } from "react-redux";
 
 export default function CreatePost({ post }) {
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.auth.userData);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  console.log("creta post user", userData);
 
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -39,6 +48,45 @@ export default function CreatePost({ post }) {
     };
   }, [watch, slugTransform, setValue]);
 
+  const handleSubmitPost = async (data) => {
+    const file = data.image[0]
+      ? await fileService.uploadFile(data.image[0])
+      : null;
+
+    console.log("HANDLE SUBMIT DATA", data);
+    console.log("Selected file in parent state:", selectedFile);
+    console.log("file:", file);
+
+    if (post) {
+      if (file) {
+        fileService.deleteFile(post.featuredImage); // yaha per jo featuredImage use wo data ke col ke name honga
+      }
+      const dbUpdatePost = await postService.updatePost(post.$id, {
+        ...data,
+        featuredImage: file ? file.$id : undefined,
+      });
+      if (dbUpdatePost) {
+        navigate(`/post/${dbUpdatePost.$id}`);
+      }
+    } else {
+      if (file) {
+        data.featuredImage = file.$id;
+        const dbCreatePost = await postService.createPost({
+          ...data,
+          userId: userData.$id,
+        });
+        if (dbCreatePost) {
+          navigate(`/post/${dbCreatePost.$id}`);
+        }
+      }
+    }
+  };
+
+  const handleFileChange = (file) => {
+    console.log("Parent received file:", file);
+    setSelectedFile(file); // state me store kar do
+    // future me API call ya additional logic yahan laga sakte ho
+  };
 
   return (
     <div className=" bg-[#172842] py-10 px-4 rounded-2xl">
@@ -47,7 +95,10 @@ export default function CreatePost({ post }) {
           {post ? "Update" : "Create"} New Post
         </h2>
 
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <form
+          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          onSubmit={handleSubmit(handleSubmitPost)}
+        >
           {/* Left Column: Title + Content */}
           <div className="space-y-6">
             <div>
@@ -85,7 +136,7 @@ export default function CreatePost({ post }) {
               <RTEditor
                 name="content"
                 control={control}
-                defaultValue={getValues}
+                defaultValue={getValues("content")}
               />
             </div>
           </div>
@@ -104,6 +155,7 @@ export default function CreatePost({ post }) {
               <UploadImageFile
                 register={register}
                 defaultImage={post?.image}
+                onFileChange={handleFileChange}
               />
               {post && (
                 <div className="relative w-full mt-2">
@@ -131,13 +183,13 @@ export default function CreatePost({ post }) {
           <div className="md:col-span-2 flex justify-end gap-4 mt-4">
             <button
               type="button"
-              className="px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
+              className="cursor-pointer px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+              className="cursor-pointer px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
             >
               {post ? "Update" : "Create"} Post
             </button>
