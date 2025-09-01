@@ -12,7 +12,7 @@ export default function CreatePost({ post }) {
   const userData = useSelector((state) => state.auth.userData);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  console.log("creta post user", userData);
+  console.log("cuser list", userData);
 
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -59,7 +59,7 @@ export default function CreatePost({ post }) {
 
     if (post) {
       if (file) {
-        fileService.deleteFile(post.featuredImage); // yaha per jo featuredImage use wo data ke col ke name honga
+        fileService.deleteFile(post.featuredImage); // yaha per jo featuredImage use wo db ke col ke name honga
       }
       const dbUpdatePost = await postService.updatePost(post.$id, {
         ...data,

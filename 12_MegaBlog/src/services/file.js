@@ -31,7 +31,7 @@ class FileUploadService {
   }
 
   previewFile(fileId) {
-    return this.storage.getFilePreview(fileId);
+    return this.storage.getFilePreview(conf.storageId, fileId);
   }
 }
 

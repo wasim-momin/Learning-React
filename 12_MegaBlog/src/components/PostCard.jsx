@@ -1,26 +1,28 @@
 import { useNavigate } from "react-router-dom";
+import fileService from "../services/file"
 
-export default function PostCard({ post }) {
+export default function PostCard({ $id, title, featuredImage, content, $createdAt, author }) {
 
   const navigate = useNavigate()
+  const imgPreview = fileService.previewFile(featuredImage)
 
   return (
     <div
-      onClick={()=>navigate(`/posts/${post.id}`)}
+      onClick={()=>navigate(`/posts/${$id}`)}
       className="cursor-pointer block bg-white rounded-xl shadow-md hover:shadow-xl transition p-4"
     >
       <img
-        src={post.image}
-        alt={post.title}
+        src={imgPreview}
+        alt={title}
         className="w-full h-48 object-cover rounded-lg mb-3"
       />
       <h2 className="text-lg font-semibold text-gray-800 mb-1">
-        {post.title}
+        {title}
       </h2>
       <p className="text-gray-500 text-sm mb-2">
-        ✍️ {post.author} • {post.date}
+        ✍️ {author} • {$createdAt}
       </p>
-      <p className="text-gray-600 text-sm line-clamp-2">{post.content}</p>
+      <p className="text-gray-600 text-sm line-clamp-2">{content}</p>
     </div>
   );
 }
