@@ -61,7 +61,7 @@ export default function Header() {
                <LogoutButton />
             </li>
           }
-               {/* <LogoutButton /> */}
+               <LogoutButton />
 
         </ul>
       </div>

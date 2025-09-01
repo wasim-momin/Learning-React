@@ -12,8 +12,6 @@ export default function CreatePost({ post }) {
   const userData = useSelector((state) => state.auth.userData);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  console.log("cuser list", userData);
-
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
       defaultValues: {
@@ -66,7 +64,7 @@ export default function CreatePost({ post }) {
         featuredImage: file ? file.$id : undefined,
       });
       if (dbUpdatePost) {
-        navigate(`/post/${dbUpdatePost.$id}`);
+        navigate(`/posts/${dbUpdatePost.$id}`);
       }
     } else {
       if (file) {
@@ -84,8 +82,7 @@ export default function CreatePost({ post }) {
 
   const handleFileChange = (file) => {
     console.log("Parent received file:", file);
-    setSelectedFile(file); // state me store kar do
-    // future me API call ya additional logic yahan laga sakte ho
+    setSelectedFile(file);
   };
 
   return (
@@ -184,6 +181,7 @@ export default function CreatePost({ post }) {
             <button
               type="button"
               className="cursor-pointer px-6 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
+              onClick={()=>{navigate("/posts")}}
             >
               Cancel
             </button>

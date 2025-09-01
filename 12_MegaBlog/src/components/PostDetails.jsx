@@ -54,7 +54,7 @@ export default function PostDetails() {
             <h1 className="text-3xl font-bold text-gray-800">{post.title}</h1>
             {isAuther && (
               <div className="flex gap-3">
-                <button className="cursor-pointer p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition">
+                <button className="cursor-pointer p-2 rounded-full bg-blue-100 hover:bg-blue-200 transition" onClick={()=>{navigate(`/edit-post/${post.$id}`)}}>
                   <Pencil className="w-5 h-5 text-blue-600" />
                 </button>
                 <button className="cursor-pointer p-2 rounded-full bg-red-100 hover:bg-red-200 transition" onClick={handleDeletePost}>

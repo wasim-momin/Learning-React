@@ -11,6 +11,7 @@ import {
   PostDetails,
   PostList,
   Signup,
+  PostEdit
 } from "./components/";
 
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/posts/:slug",
         element: <PostDetails />,
+      },
+      {
+        path: "/edit-post/:slug",
+        element: <PostEdit />,
       },
       {
         path: "/posts",
