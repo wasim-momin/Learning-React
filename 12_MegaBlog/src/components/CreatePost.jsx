@@ -47,13 +47,11 @@ export default function CreatePost({ post }) {
   }, [watch, slugTransform, setValue]);
 
   const handleSubmitPost = async (data) => {
+    console.log("form submit", data);
+    
     const file = data.image[0]
       ? await fileService.uploadFile(data.image[0])
       : null;
-
-    console.log("HANDLE SUBMIT DATA", data);
-    console.log("Selected file in parent state:", selectedFile);
-    console.log("file:", file);
 
     if (post) {
       if (file) {
@@ -157,7 +155,7 @@ export default function CreatePost({ post }) {
               {post && (
                 <div className="relative w-full mt-2">
                   <img
-                  src={fileService.previewFile(post.$id)}
+                    src={selectedFile ? URL.createObjectURL(selectedFile) : post?.image || ""}
                     alt="Preview"
                     className="w-full h-48 object-cover rounded-lg border"
                   />
