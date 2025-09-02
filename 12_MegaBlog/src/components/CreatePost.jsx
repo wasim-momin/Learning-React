@@ -157,6 +157,7 @@ export default function CreatePost({ post }) {
               {post && (
                 <div className="relative w-full mt-2">
                   <img
+                  src={fileService.previewFile(post.$id)}
                     alt="Preview"
                     className="w-full h-48 object-cover rounded-lg border"
                   />
