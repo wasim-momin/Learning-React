@@ -12,8 +12,8 @@ export default function PostDetails() {
   const navigate = useNavigate()
 
   const userData = useSelector((state) => state.auth.userData);
-
   const isAuther = post && userData ? post.userId === userData.$id : false;
+  const postImage = fileService.previewFile(post?.featuredImage)
 
   console.log("user", slug);
 
@@ -43,7 +43,7 @@ export default function PostDetails() {
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
         {/* Image */}
         <img
-          src={post.image}
+          src={postImage}
           alt={post.title}
           className="w-full h-72 object-cover"
         />
